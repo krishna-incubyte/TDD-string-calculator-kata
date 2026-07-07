@@ -17,7 +17,7 @@ class StringCalculator
       integer_array = string.split(delimiter).map(&:to_i)
       negative_numbers = integer_array.select(&:negative?)
       raise Errors::InvalidNumber.new("Invalid negative numbers: #{negative_numbers.join(', ')}") if integer_array.find(&:negative?)
-      integer_array.sum
+      integer_array.reject { |number| number >= 1000 }.sum
     end
   end
 
