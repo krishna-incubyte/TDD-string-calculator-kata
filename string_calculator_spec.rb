@@ -60,6 +60,24 @@ RSpec.describe StringCalculator do
 
         expect(result).to eq(3)
       end
+
+      context 'when there are multiple delimiters' do
+        it 'add the numbers - case 1' do
+          service = described_class.new("//[%][*]\n1*2%3")
+
+          result = service.execute
+
+          expect(result).to eq(6)
+        end
+
+        it 'add the numbers - case 2' do
+          service = described_class.new("//[%%][**]\n1**2%%3")
+
+          result = service.execute
+
+          expect(result).to eq(6)
+        end
+      end
     end
 
     context 'when there are -ve numbers' do
