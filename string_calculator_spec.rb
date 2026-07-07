@@ -2,12 +2,28 @@ require './string_calculator'
 
 RSpec.describe StringCalculator do
   describe '#execute' do
-    it 'adds the numbers in string' do
+    it 'adds the numbers in string - case 1' do
       service = described_class.new("1,2")
 
       result = service.execute
 
       expect(result).to eq(3)
+    end
+
+    it 'adds the numbers in given string - case 2' do
+      service = described_class.new(",1,2,3,")
+
+      result = service.execute
+
+      expect(result).to eq(6)
+    end
+
+    it 'returns 0 for an empty string' do
+      service = described_class.new("")
+
+      result = service.execute
+
+      expect(result).to eq(0)
     end
   end
 end
