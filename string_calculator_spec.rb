@@ -61,5 +61,15 @@ RSpec.describe StringCalculator do
         expect(result).to eq(3)
       end
     end
+
+    context 'when there are -ve numbers' do
+      it 'raises an error' do
+        service = described_class.new("-1,-2")
+
+        expect {
+          service.execute
+      }.to raise_error(Errors::InvalidNumber)
+      end
+    end
   end
 end

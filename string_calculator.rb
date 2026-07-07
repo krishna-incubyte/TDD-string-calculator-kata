@@ -1,3 +1,5 @@
+require './errors'
+
 class StringCalculator
   DEFAULT_DELIMITER = ','
   NEWLINE_IDENTIFIER = '/n'
