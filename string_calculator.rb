@@ -7,9 +7,16 @@ class StringCalculator
   end
 
   def execute
-    multiline_strings = @string.split(NEWLINE_IDENTIFIER)
+    match = @string.match(%r{\A//(.+?)\n(.*)}m)
+    delimiter, parsed_string = if match
+      [match[1], match[2]]
+    else
+      [DEFAULT_DELIMITER, @string]
+    end
+
+    multiline_strings = parsed_string.split(NEWLINE_IDENTIFIER)
     multiline_strings.sum do |string|
-      string.split(DEFAULT_DELIMITER).sum(&:to_i)
+      string.split(delimiter).sum(&:to_i)
     end
   end
 end
