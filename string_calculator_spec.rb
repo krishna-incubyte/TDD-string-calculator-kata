@@ -43,5 +43,23 @@ RSpec.describe StringCalculator do
         expect(result).to eq(8)
       end
     end
+
+    context 'when there are custom delimiters' do
+      it 'add the numbers - case 1' do
+        service = described_class.new("//;\n1;2")
+
+        result = service.execute
+
+        expect(result).to eq(3)
+      end
+
+      it 'add the numbers - case 2' do
+        service = described_class.new("//:;\n1:;2")
+
+        result = service.execute
+
+        expect(result).to eq(3)
+      end
+    end
   end
 end
