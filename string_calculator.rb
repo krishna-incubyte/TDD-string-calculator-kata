@@ -5,5 +5,6 @@ class StringCalculator
   end
 
   def execute
+    @string.split(',').sum(&:to_i)
   end
 end
