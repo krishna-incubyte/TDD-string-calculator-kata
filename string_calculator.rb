@@ -1,10 +1,11 @@
 class StringCalculator
+  DEFAULT_DELIMITER = ','
 
   def initialize(string)
     @string = string
   end
 
   def execute
-    @string.split(',').sum(&:to_i)
+    @string.split(DEFAULT_DELIMITER).sum(&:to_i)
   end
 end
