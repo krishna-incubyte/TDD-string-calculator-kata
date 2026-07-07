@@ -68,7 +68,7 @@ RSpec.describe StringCalculator do
 
         expect {
           service.execute
-      }.to raise_error(Errors::InvalidNumber)
+        }.to raise_error(Errors::InvalidNumber, "Invalid negative numbers: -1, -2")
       end
     end
   end
