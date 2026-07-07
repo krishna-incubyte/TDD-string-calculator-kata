@@ -30,14 +30,19 @@ class StringCalculator
     match = @string.match(PARSER_REGEX)
     return @string unless match
 
-    delimiters_string = match[1]
+    delimiters = parse_delimiters(match[1])
+    replace_delimiters_with_default(match[2], delimiters)
+  end
+
+  def parse_delimiters(delimiters_string)
     delimeters = delimiters_string.scan(MULTI_DELIMITER_REGEX).flatten
 
-    delimeters = [delimiters_string] if delimeters.empty?
+    delimeters.empty? ? [delimiters_string] : delimeters
+  end
 
-    string = match[2]
-    delimeters.each { |delimiter| string.gsub!(delimiter, DEFAULT_DELIMITER) }
+  def replace_delimiters_with_default(string, delimiters)
+    delimiters.each { |delimiter| string.gsub!(delimiter, DEFAULT_DELIMITER) }
 
-    string
+    return string
   end
 end
