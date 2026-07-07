@@ -8,30 +8,28 @@ class StringCalculator
   MULTI_DELIMITER_REGEX = /\[([^\[\]]+)\]/
 
   def initialize(string)
-    @string = string
+    @original_string = string
+    initialize_data_and_delimiters
   end
 
   def execute
-    parsed_string = parse_string
+    update_data_from_multi_delimiters_with_default
 
-    multiline_strings = parsed_string.split(NEWLINE_IDENTIFIER)
+    multiline_strings = @data.split(NEWLINE_IDENTIFIER)
 
-    multiline_strings.sum do |string|
-      integer_array = string.split(DEFAULT_DELIMITER).map(&:to_i)
-      negative_numbers = integer_array.select(&:negative?)
-      raise Errors::InvalidNumber.new("Invalid negative numbers: #{negative_numbers.join(', ')}") if integer_array.find(&:negative?)
-      integer_array.reject { |number| number >= MAX_PERMITTED_INTEGER }.sum
-    end
+    multiline_strings.sum { |string| sum(string) }
   end
 
   private
 
-  def parse_string
-    match = @string.match(PARSER_REGEX)
-    return @string unless match
+  def initialize_data_and_delimiters
+    match = @original_string.match(PARSER_REGEX)
 
-    delimiters = parse_delimiters(match[1])
-    replace_delimiters_with_default(match[2], delimiters)
+    @delimiters, @data = if match
+      [parse_delimiters(match[1]), match[2]]
+    else
+      [[DEFAULT_DELIMITER], @original_string]
+    end
   end
 
   def parse_delimiters(delimiters_string)
@@ -40,9 +38,16 @@ class StringCalculator
     delimeters.empty? ? [delimiters_string] : delimeters
   end
 
-  def replace_delimiters_with_default(string, delimiters)
-    delimiters.each { |delimiter| string.gsub!(delimiter, DEFAULT_DELIMITER) }
+  def update_data_from_multi_delimiters_with_default
+    @delimiters.each { |delimiter| @data.gsub!(delimiter, DEFAULT_DELIMITER) }
+  end
 
-    return string
+  def sum(string)
+    integer_array = string.split(DEFAULT_DELIMITER).map(&:to_i)
+
+    negative_numbers = integer_array.select(&:negative?)
+    raise Errors::InvalidNumber.new("Invalid negative numbers: #{negative_numbers.join(', ')}") if integer_array.find(&:negative?)
+
+    integer_array.reject { |number| number >= MAX_PERMITTED_INTEGER }.sum
   end
 end
