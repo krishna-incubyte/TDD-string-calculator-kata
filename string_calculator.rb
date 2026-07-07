@@ -15,7 +15,8 @@ class StringCalculator
     multiline_strings = parsed_string.split(NEWLINE_IDENTIFIER)
     multiline_strings.sum do |string|
       integer_array = string.split(delimiter).map(&:to_i)
-      raise Errors::InvalidNumber if integer_array.find(&:negative?)
+      negative_numbers = integer_array.select(&:negative?)
+      raise Errors::InvalidNumber.new("Invalid negative numbers: #{negative_numbers.join(', ')}") if integer_array.find(&:negative?)
       integer_array.sum
     end
   end
