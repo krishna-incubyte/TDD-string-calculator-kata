@@ -4,6 +4,7 @@ class StringCalculator
   DEFAULT_DELIMITER = ','
   NEWLINE_IDENTIFIER = '/n'
   PARSER_REGEX = %r{\A//(.+?)\n(.*)}m
+  MAX_PERMITTED_INTEGER = 1000
 
   def initialize(string)
     @string = string
@@ -17,7 +18,7 @@ class StringCalculator
       integer_array = string.split(delimiter).map(&:to_i)
       negative_numbers = integer_array.select(&:negative?)
       raise Errors::InvalidNumber.new("Invalid negative numbers: #{negative_numbers.join(', ')}") if integer_array.find(&:negative?)
-      integer_array.reject { |number| number >= 1000 }.sum
+      integer_array.reject { |number| number >= MAX_PERMITTED_INTEGER }.sum
     end
   end
 
