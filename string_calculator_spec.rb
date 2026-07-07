@@ -25,5 +25,15 @@ RSpec.describe StringCalculator do
 
       expect(result).to eq(0)
     end
+
+    context 'when there is a newline' do
+      it 'adds the numbers by ignoring the newline' do
+        service = described_class.new("1/n2,2")
+
+        result = service.execute
+
+        expect(result).to eq(5)
+      end
+    end
   end
 end
