@@ -71,5 +71,15 @@ RSpec.describe StringCalculator do
         }.to raise_error(Errors::InvalidNumber, "Invalid negative numbers: -1, -2")
       end
     end
+
+    context 'when the string has numbers greater than 1000' do
+      it 'adds other numbers - case 1' do
+        service = described_class.new("1000,2")
+
+        result = service.execute
+
+        expect(result).to eq(2)
+      end
+    end
   end
 end
