@@ -10,11 +10,10 @@ class StringCalculator
   def initialize(string)
     @original_string = string
     initialize_data_and_delimiters
+    update_data_from_multi_delimiters_with_default
   end
 
-  def execute
-    update_data_from_multi_delimiters_with_default
-
+  def add
     multiline_strings = @data.split(NEWLINE_IDENTIFIER)
 
     multiline_strings.sum { |string| sum(string) }
